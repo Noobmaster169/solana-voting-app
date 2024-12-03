@@ -43,30 +43,30 @@ pub mod voting {
         Ok(())
     }
 
-    // pub fn initialize_candidate(ctx: Context<InitializeCandidate>, 
-    //                             poll_id: u64, 
-    //                             candidate: String) -> Result<()> {
-    //     ctx.accounts.candidate_account.candidate_name = candidate;
-    //     ctx.accounts.poll_account.poll_option_index += 1;
-    //     Ok(())
-    // }
+    pub fn initialize_candidate(ctx: Context<InitializeCandidate>, 
+                                _poll_id: u64, 
+                                candidate: String) -> Result<()> {
+        ctx.accounts.candidate_account.candidate_name = candidate;
+        ctx.accounts.poll_account.poll_option_index += 1;
+        Ok(())
+    }
 
-    // pub fn vote(ctx: Context<Vote>, poll_id: u64, candidate: String) -> Result<()> {
-    //     let candidate_account = &mut ctx.accounts.candidate_account;
-    //     let current_time = Clock::get()?.unix_timestamp;
+    pub fn vote(ctx: Context<Vote>, _poll_id: u64, _candidate: String) -> Result<()> {
+        let candidate_account = &mut ctx.accounts.candidate_account;
+        let current_time = Clock::get()?.unix_timestamp;
 
-    //     if current_time > (ctx.accounts.poll_account.poll_voting_end as i64) {
-    //         return Err(ErrorCode::VotingEnded.into());
-    //     }
+        if current_time > (ctx.accounts.poll_account.poll_voting_end as i64) {
+            return Err(ErrorCode::VotingEnded.into());
+        }
 
-    //     if current_time <= (ctx.accounts.poll_account.poll_voting_start as i64) {
-    //         return Err(ErrorCode::VotingNotStarted.into());
-    //     }
+        if current_time <= (ctx.accounts.poll_account.poll_voting_start as i64) {
+            return Err(ErrorCode::VotingNotStarted.into());
+        }
 
-    //     candidate_account.candidate_votes += 1;
+        candidate_account.candidate_votes += 1;
 
-    //     Ok(())
-    // }
+        Ok(())
+    }
     
 }
 
